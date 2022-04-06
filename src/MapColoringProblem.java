@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class MapColoringProblem {
     public static int numberOfColors;
-    public static List<String> listOfColors = new ArrayList<String>();
+    public static List<Character> listOfColors = new ArrayList<>();
     public static List<List<Integer>> map=new ArrayList<>();
     //get the matrix describing the map (matrix of zeros and ones)
     public static void getMap()
@@ -32,11 +32,25 @@ public class MapColoringProblem {
         System.out.println("The introduced map :");
         showList(Collections.singletonList(map));
     }
+    //generates a map randomly
     public static void generateMap()
     {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter number of map's zones : " );
         int nbZones=sc.nextInt();
+        for (int i=0; i<nbZones; i++)
+        {
+            List<Integer> borders=new ArrayList<>();
+            for (int j=0;j<i;j++){
+                //borders.add(((int)(Math.random()*100))%2);
+                borders.add((int) Math.round(Math.random()));
+            }
+            borders.set(i,0);
+            map.add(borders);
+        }
+        System.out.println("The introduced map :");
+        showList(Collections.singletonList(map));
+
     }
     //show all possibilities to color the graph
     public static void showList(List<List<?>> lst)
@@ -52,19 +66,41 @@ public class MapColoringProblem {
     public static boolean isValid(List<Character> colorsSequence)
     {
         boolean ok=true;
-
+        int currentZoneIndex=colorsSequence.size()-1;
+        int i=0;
+        while(i<currentZoneIndex && ok)
+        {
+            if(colorsSequence.get(i)==colorsSequence.get(currentZoneIndex) && map.get(i).get(currentZoneIndex)==1)
+            {
+                ok=false;
+            }
+            else
+                i++;
+        }
         return ok;
     }
     public List<List<Character>> MapColoring()
     {
+        //result contains all combinations of valid sequences of colors
         List<List<Character>> result =new ArrayList<>();
         solveMapColoring(new ArrayList<Character>(),result);
         return result;
     }
-    //loop all combinitions to find all possibles solutions
+    //loop all combinations to find all possibles solutions
+    //recursive method
     public static void solveMapColoring(List<Character> colorsSequence, List<List<Character>> result)
     {
-
+        if(colorsSequence.size()==map.size())
+            result.add(new ArrayList<Character>(colorsSequence));
+        else {
+            for(Character color:listOfColors)
+            {
+                colorsSequence.add(color);
+                if(isValid(colorsSequence))
+                    solveMapColoring(colorsSequence,result);
+                colorsSequence.remove(colorsSequence.size()-1);
+            }
+        }
     }
 
 }
