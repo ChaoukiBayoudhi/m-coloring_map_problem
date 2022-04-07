@@ -10,8 +10,7 @@ public class Application {
         MapColoringProblem.getListOfColors();
         MapColoringProblem.getMap();
        // MapColoringProblem.generateMap();
-
+        System.out.println("Possible Solutions are :");
         MapColoringProblem.showList(Collections.singletonList(MapColoringProblem.mapColoring()));
-
     }
 }
