@@ -52,6 +52,14 @@ public class MapColoringProblem {
         showList(Collections.singletonList(map));
 
     }
+    public static void getListOfColors()
+    {
+        for (int i = 0; i < numberOfColors; i++) {
+            System.out.print("Color n° "+(i+1)+ " = ? ");
+            Scanner sc=new Scanner(System.in);
+            listOfColors.add(sc.next().charAt(0));
+        }
+    }
     //show all possibilities to color the graph
     public static void showList(List<List<?>> lst)
     {
@@ -79,7 +87,7 @@ public class MapColoringProblem {
         }
         return ok;
     }
-    public List<List<Character>> MapColoring()
+    public static List<List<Character>> mapColoring()
     {
         //result contains all combinations of valid sequences of colors
         List<List<Character>> result =new ArrayList<>();
@@ -90,17 +98,7 @@ public class MapColoringProblem {
     //recursive method
     public static void solveMapColoring(List<Character> colorsSequence, List<List<Character>> result)
     {
-        if(colorsSequence.size()==map.size())
-            result.add(new ArrayList<Character>(colorsSequence));
-        else {
-            for(Character color:listOfColors)
-            {
-                colorsSequence.add(color);
-                if(isValid(colorsSequence))
-                    solveMapColoring(colorsSequence,result);
-                colorsSequence.remove(colorsSequence.size()-1);
-            }
-        }
+
     }
 
 }
