@@ -91,14 +91,23 @@ public class MapColoringProblem {
     {
         //result contains all combinations of valid sequences of colors
         List<List<Character>> result =new ArrayList<>();
-        solveMapColoring(new ArrayList<Character>(),result);
+        solveMapColoring(0,new ArrayList<Character>(),result);
         return result;
     }
     //loop all combinations to find all possibles solutions
     //recursive method
-    public static void solveMapColoring(List<Character> colorsSequence, List<List<Character>> result)
+    public static void solveMapColoring(int zoneIndex,List<Character> colorsSequence, List<List<Character>> result)
     {
-
+        if(colorsSequence.size()==map.size())
+            result.add(new ArrayList<>(colorsSequence));
+        else {
+            for(Character color:listOfColors) {
+                colorsSequence.add(color);
+                if(isValid(colorsSequence))
+                    solveMapColoring(zoneIndex+1, colorsSequence, result);
+                colorsSequence.remove(colorsSequence.size()-1);
+            }
+        }
     }
 
 }
